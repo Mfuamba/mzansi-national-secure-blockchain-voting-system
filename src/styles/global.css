@@ -1,0 +1,29 @@
+/* src/styles/global.css */
+
+/* Set a white background for the entire application */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #333;
+}
+
+/* Define the primary blue color */
+:root {
+    --primary-blue: #007bff; /* Replace with your preferred blue shade */
+}
+
+/* Apply primary blue color to various elements */
+a {
+    color: var(--primary-blue);
+}
+
+button {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+/* Additional styling for buttons */
+button:hover {
+    background-color: darken(var(--primary-blue), 10%);
+}

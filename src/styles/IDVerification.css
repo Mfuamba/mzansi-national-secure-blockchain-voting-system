@@ -1,0 +1,92 @@
+/* src/components/user/IDVerification.css */
+
+.id-verification-container {
+    display: flex;
+    height: 100vh;
+}
+
+.left-half,
+.right-half {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.left-half {
+    background-color: #f0f0f0;
+    text-align: center;
+    flex-direction: column;
+}
+
+.left-half h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #0033cc; /* Primary blue color */
+}
+
+.left-half .svg-image {
+    max-width: 65%;
+    height: auto;
+    margin-top: 20px; /* Space between text and SVG */
+}
+
+.right-half {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-image {
+    width: 45%; /* Adjust this percentage as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px; /* Space between logo and form */
+    margin-top: -150px; /* Move up by 10px */
+}
+
+.form {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    margin-top: 0; /* Adjust if needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+}
+
+.form label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    align-items: center; /* Center items horizontally */
+}
+
+.form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form button {
+    background-color: #0033cc; /* Primary blue color */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: center; /* Center button horizontally within the form */
+
+}
+
+.form button:hover {
+    background-color: #002a80; /* Darker blue for hover */
+}

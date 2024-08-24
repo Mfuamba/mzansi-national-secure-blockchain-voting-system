@@ -1,0 +1,121 @@
+/* src/styles/SignupForm.css */
+
+.signup-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    
+}
+.left-half .svg-image {
+    max-width: 45%;
+    height: auto;
+    margin-top: 20px; /* Space between text and SVG */
+}
+
+.left-half {
+    flex: 1;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.right-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Start from the top to make space for the logo */
+    padding: 20px;
+    background-color: #fff;
+}
+.loading-message {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-top: 10px;
+}
+
+.logo-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+    margin-top: 10px; /* Ensure there's space above the logo */
+    align-self: center; /* Align the logo to the start of the form */
+}
+
+.form {
+    background-color: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* Reduced form width for better spacing */
+    margin-top: 20px; /* Allow space for the logo */
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px; /* Increased margin between rows */
+}
+
+.form-column {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form-column:last-child {
+    margin-right: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px; /* Increased margin for better readability */
+    font-weight: 600; /* Made the font-weight a bit heavier */
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 12px; /* Increased padding for larger input fields */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-top: 1px;
+    box-sizing: border-box; /* Ensures padding doesn’t affect width */
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em; /* Increased font size for the button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Added more space above the button */
+}
+
+button:hover {
+    background-color: #00509e;
+}
+
+.form-links {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.form-links a {
+    color: #003366;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.form-links a:hover {
+    text-decoration: underline;
+}
