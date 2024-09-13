@@ -1,0 +1,38 @@
+/* src/styles/Footer.css */
+
+.footer-container {
+    background: linear-gradient(237.49deg, #EEF4FA 0.63%, #DEE6ED 85.49%);
+    width: 100%;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.footer-container .MuiBottomNavigation-root {
+    background: transparent;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer-container a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-container a:hover {
+    text-decoration: underline;
+}
+
+.footer-container p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}

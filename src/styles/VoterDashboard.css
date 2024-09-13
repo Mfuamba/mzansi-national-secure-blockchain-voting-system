@@ -1,0 +1,97 @@
+/* src/styles/VoterDashboard.css */
+/* src/styles/VoterDashboard.css */
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4; /* Optional: background color for the container */
+}
+
+.dashboard-sidebar {
+    width: 250px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-content {
+    flex: 1; /* This will make the content take up the remaining space */
+    padding: 20px;
+    background-color: #ffffff;
+    margin-left: 250px; /* Offset the content by the width of the sidebar */
+    box-sizing: border-box;
+    overflow-y: auto; /* If you want to allow vertical scrolling */
+}
+
+/* Rest of your styles... */
+
+.sidebar {
+    width: 250px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: #333;
+    text-decoration: none;
+}
+
+.sidebar-nav a.active {
+    background-color: #e3e3e3;
+    border-left: 4px solid #00aaff;
+}
+
+.dashboard-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.overview-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.election-card, .history-card {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #00aaff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.footer {
+    margin-top: auto; /* Push the footer to the bottom */
+    background: linear-gradient(237.49deg, #EEF4FA 0.63%, #DEE6ED 85.49%);
+    padding: 10px 20px; /* Add padding to the footer */
+    text-align: center;
+}

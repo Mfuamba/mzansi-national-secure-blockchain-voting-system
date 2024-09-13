@@ -6,42 +6,25 @@ export const VERIFY_ID = gql`
     verifyID(id: $id)
   }
 `
+export const GET_ELECTIONS = gql`
+  query GetElections {
+    elections {
+      id
+      title
+      description
+    }
+  }
+`;
 
-//DONE
-export const getDashboardTotal = `query GetDashboardTotal($startingDate: String, $endingDate: String,$restaurant:String!){
-  getDashboardTotal(startingDate: $startingDate, endingDate: $endingDate,restaurant:$restaurant){
-    totalOrders
-    totalSales
-  }
-}`
-//DONE
-export const getDashboardSales = `query GetDashboardSales($startingDate: String, $endingDate: String,$restaurant:String!){
-  getDashboardSales(startingDate: $startingDate, endingDate: $endingDate,restaurant:$restaurant){
-    orders{
-      day
-      amount
+export const GET_VOTING_HISTORY = gql`
+  query GetVotingHistory {
+    votingHistory {
+      id
+      election {
+        title
+      }
+      choice
+      date
     }
   }
-}`
-//DONE
-export const getDashboardOrders = `query GetDashboardOrders($startingDate: String, $endingDate: String,$restaurant:String!){
-  getDashboardOrders(startingDate: $startingDate, endingDate: $endingDate,restaurant:$restaurant){
-    orders{
-      day
-      count
-    }
-  }
-}`
-//DONE
-export const getDashboardData = `query GetDashboardData($startingDate: String, $endingDate: String){
-  getDashboardData(starting_date: $startingDate, ending_date: $endingDate){
-    totalOrders
-    totalUsers
-    totalSales
-    orders{
-      day
-      count
-      amount
-    }
-  }
-}`;
+`;

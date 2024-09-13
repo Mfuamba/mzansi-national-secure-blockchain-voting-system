@@ -8,7 +8,7 @@ import signupSVG from '../../assets/signup.svg'; // Path to your SVG image
 import Loader from '../common/Loader'; // Import your Loader component
 import { REGISTER_USER } from '../../apollo/mutations';
 
-function SignupForm() {
+function AdminSignup() {
     const [formData, setFormData] = useState({
         name: '',
         surname: '',
@@ -18,7 +18,7 @@ function SignupForm() {
         id: '',
         password: '',
         confirmPassword: '',
-        role: 'VOTER',
+        role: 'ADMIN',
         status: 'Active',
     });
 
@@ -37,7 +37,7 @@ function SignupForm() {
                 secure: process.env.NODE_ENV === 'production', // Set to true in production
                 sameSite: 'Strict',
             });
-            navigate('/user/login');
+            navigate('/admin/login');
         },
         onError: (error) => {
             setLoading(false); // Stop the loader
@@ -87,7 +87,7 @@ function SignupForm() {
     return (
         <div className="signup-container">
             <div className="left-half">
-                <h1>Sign Up</h1>
+                <h1>Admin Sign Up</h1>
                 <img 
                     src={signupSVG} 
                     alt="Signup Illustration" 
@@ -219,7 +219,7 @@ function SignupForm() {
                         {loading ? <Loader /> : 'Sign Up'} {/* Show loader when loading */}
                     </button>
                     <div className="form-links">
-                        <Link to="/user/login">Already have an account? Login here</Link>
+                        <Link to="/admin/login">Already have an account? Login here</Link>
                     </div>
                 </form>
             </div>
@@ -227,4 +227,4 @@ function SignupForm() {
     );
 }
 
-export default SignupForm;
+export default AdminSignup;

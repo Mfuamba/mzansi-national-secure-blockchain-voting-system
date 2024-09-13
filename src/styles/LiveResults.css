@@ -1,0 +1,78 @@
+/* LiveResults.css */
+.live-results {
+    display: flex;
+    padding: 20px;
+    height: 300px; /* Adjusted height */
+    background-color: #eef4fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-content {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.chart-container {
+    width: 65%;
+    height: 250px; /* Adjust height as needed */
+    background-color: #eef4fa;
+}
+
+.map-container {
+    width: 35%; /* 35% width for the map */
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #e0e0e0; /* Divider between chart and map */
+}
+
+.chart-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.chart-controls button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chart-controls button.active {
+    background-color: #0056b3;
+}
+
+.chart-controls button:hover {
+    background-color: #0056b3;
+}
+
+.chart-container .chartjs-render-monitor {
+    border-radius: 10px; /* Apply border radius to the chart canvas */
+}
+
+/* Adjustments for Pie Chart */
+.chart-container .chartjs-render-monitor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container .chartjs-size-monitor {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pie-chart-container {
+    display: flex;
+    justify-content: space-between;
+}

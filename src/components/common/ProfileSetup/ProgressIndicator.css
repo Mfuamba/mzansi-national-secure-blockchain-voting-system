@@ -1,0 +1,19 @@
+.progress-indicator {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.progress-indicator div {
+    width: 100px;
+    height: 4px;
+    background-color: lightgray;
+    text-align: center;
+    line-height: 30px;
+    color: lightgray;
+}
+
+.progress-indicator div.active {
+    background-color: green;
+    color: black;
+}

@@ -9,7 +9,7 @@ import Loader from '../common/Loader'; // Import the Loader component
 import { LOGIN_USER } from '../../apollo/mutations';
 import { AuthContext } from '../../utils/AuthContext'; // Import AuthContext
 
-function Login() {
+function AdminLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -26,7 +26,7 @@ function Login() {
             const userData = data.loginUser.user;
             console.log("Login successful, user data:", userData); // Logging
             login(userData); // Call the login function from AuthContext
-            navigate('/voter/dashboard');
+            navigate('/admin/dashboard');
         },
         onError: (error) => {
             console.error("Login error:", error);
@@ -50,7 +50,7 @@ function Login() {
     return (
         <div className="login-container">
             <div className="left-half">
-                <h1>Welcome Back</h1>
+                <h1>Welcome, Admin</h1>
                 <img src={loginSVG} alt="Login Illustration" className="svg-image" />
             </div>
             <div className="right-half">
@@ -81,8 +81,8 @@ function Login() {
                         {loading ? <Loader /> : 'Login'} {/* Show loader when loading */}
                     </button>
                     <div className="form-links">
-                        <Link to="/user/forgot-password">Forgot Password?</Link>
-                        <Link to="/user/signup">Sign Up</Link>
+                        <Link to="/admin/forgot-password">Forgot Password?</Link>
+                        <Link to="/admin/signup">Sign Up</Link>
                     </div>
                 </form>
             </div>
@@ -90,4 +90,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default AdminLogin;
