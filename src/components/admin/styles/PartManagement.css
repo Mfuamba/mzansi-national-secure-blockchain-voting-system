@@ -1,0 +1,231 @@
+/* Container for Party Management Page */
+.party-management-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 105px; /* Respecting header space */
+    margin-left: 250px; /* Aligning with sidebar */
+    box-sizing: border-box;
+    overflow-x: hidden;
+    width: calc(100% - 250px); /* Adjust width to account for sidebar */
+}
+
+/* Heading for the page */
+.party-management-container h2 {
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Styling for the PartyOverview section */
+.party-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.party-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+    max-width: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.party-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.party-card h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.party-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Modal for editing parties */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-actions button.save {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-actions button.cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Create Party Form */
+/* src/styles/CreatePartyForm.css */
+/* src/styles/CreatePartyForm.css */
+
+.create-party-container {
+    display: flex;
+    width: 100%;
+    min-height: 80vh; /* Reduce the height to 80% of the viewport */
+    height: auto; /* Automatically adjust based on content */
+    align-items: center; /* Vertically center the container */
+    justify-content: center; /* Horizontally center the container */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.pm-left-half {
+    flex: 0 0 0%;
+    background-color: #ffffff;
+    display: flex;
+    margin-top: 200px;
+    flex-direction: column;
+    border-radius: 5px;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.pm-right-half {
+    flex: 0 0 100%; /* Takes up the remaining space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Start from the top for better spacing */
+    padding: 20px;
+    background-color: #fff;
+}
+
+.logo-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px; /* Space below the logo */
+}
+
+.form {
+    background-color: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 100%; /* Same width as in SignupForm */
+    margin-top: 5px; /* Space above the form */
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px; /* More space between form rows */
+}
+
+.form-column {
+    flex: 1; /* Ensure each column takes equal space */
+    margin-right: 10px; /* Add margin for spacing */
+}
+
+.form-column:last-child {
+    margin-right: 0; /* No margin on the last column */
+}
+
+.form-column input[type="text"],
+.form-column input[type="file"],
+.form-column select,
+.form-column textarea {
+    width: 100%; /* Ensure all fields are 100% width */
+    padding: 12px; /* Consistent input padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-top: 1px; /* Space above the fields */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+textarea {
+    resize: none; /* Disable resizing for the textarea */
+    height: 100px; /* Fixed height for better layout */
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Space above the button */
+}
+
+button:hover {
+    background-color: #00509e;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px; /* Space above the error message */
+}
+
+.form-links {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.form-links a {
+    color: #003366;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.form-links a:hover {
+    text-decoration: underline;
+}

@@ -10,6 +10,9 @@ import { LOGIN_USER } from '../../apollo/mutations';
 import { AuthContext } from '../../utils/AuthContext'; // Import AuthContext
 
 function AdminLogin() {
+    const [walletConnected, setWalletConnected] = useState(false);
+    const [walletAddress, setWalletAddress] = useState('');
+    const [walletStatus, setWalletStatus] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -21,7 +24,8 @@ function AdminLogin() {
     const [loginUser] = useMutation(LOGIN_USER, {
         onCompleted: (data) => {
             const token = data.loginUser.token;
-            setCookie('token', token, { path: '/' });
+                        // Store the token in local storage
+            localStorage.setItem('token', token);
             setLoading(false);
             const userData = data.loginUser.user;
             console.log("Login successful, user data:", userData); // Logging
@@ -41,9 +45,35 @@ function AdminLogin() {
         setError('');
 
         try {
-            await loginUser({ variables: { email, password } });
+            await loginUser({ variables: { email, password, walletAddress} });
         } catch (error) {
             setLoading(false);
+        }
+    };
+    const connectWallet = async () => {
+        console.log("Attempting to connect wallet...");
+    
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    const userWalletAddress = accounts[1];
+                    setWalletConnected(true);
+                    setWalletAddress(userWalletAddress);
+                    setWalletStatus("Connected Successfully");
+                    setError('');
+                    console.log("Wallet connected:", userWalletAddress);
+                } else {
+                    console.log("No accounts found.");
+                    setError("No accounts found in MetaMask.");
+                }
+            } catch (error) {
+                console.error("Error connecting to wallet:", error);
+                setError("Failed to connect wallet. Please try again.");
+            }
+        } else {
+            console.log("MetaMask not detected");
+            setError("Please install MetaMask to connect your wallet.");
         }
     };
 
@@ -77,6 +107,11 @@ function AdminLogin() {
                             disabled={loading} // Disable during loading
                         />
                     </label>
+                    <button type="button" onClick={connectWallet} disabled={loading}>
+                        Connect Wallet
+                    </button>
+                    
+                    <p>{walletStatus || 'Wallet Not Connected'}</p> {/* Display wallet connection status */}
                     <button type="submit" disabled={loading}> {/* Disable button during loading */}
                         {loading ? <Loader /> : 'Login'} {/* Show loader when loading */}
                     </button>

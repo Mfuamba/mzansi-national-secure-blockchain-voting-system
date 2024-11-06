@@ -1,0 +1,67 @@
+.sidebar {
+    width: 250px;
+    background-color: hsl(210, 17%, 98%); /* Lighter off-white to match the sidebar with a softer tone */
+    height: calc(100vh - 188px); /* Full height minus the header height (188px) */
+    position: fixed;
+    top: 120px; /* Align just below the header */
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    z-index: 1000; /* Ensure it stays above content */
+    padding-bottom: 0px; /* Add padding to the bottom */
+    margin-left: 10px; /* Leave space between the left edge and sidebar */
+    border-right: 1px solid #e0e0e0;
+    border-radius: 10px; /* Rounded edges for a softer look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    overflow-y: auto; /* Allow scrolling if sidebar content overflows */
+}
+
+.sidebar-logo img {
+    width: 120px;
+    margin: 0 auto;
+    display: block;
+    background-color: #f8f9fa; /* Match the sidebar background */
+    padding: 10px; /* Add some padding to the image */
+    border-radius: 10px; /* Rounded edges for the logo background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.sidebar-nav {
+    margin-top: 30px;
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin: 5px 0;
+}
+
+.sidebar-nav a.active,
+.sidebar-nav a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.sidebar-nav a svg {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.sidebar-section {
+    margin-bottom: 20px;
+}
+
+/* Added spacing after the last nav link */
+.sidebar-nav a:last-child {
+    margin-bottom: 20px; /* Space after the last nav item */
+}

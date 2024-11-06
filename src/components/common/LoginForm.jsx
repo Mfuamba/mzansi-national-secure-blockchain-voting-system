@@ -1,31 +1,35 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { useCookies } from 'react-cookie';
 import '../../styles/LoginForm.css';
 import logo from '../../assets/iec-logo.png';
 import loginSVG from '../../assets/login.svg';
-import Loader from '../common/Loader'; // Import the Loader component
+import Loader from '../common/Loader';
 import { LOGIN_USER } from '../../apollo/mutations';
-import { AuthContext } from '../../utils/AuthContext'; // Import AuthContext
+import { AuthContext } from '../../utils/AuthContext';
 
 function Login() {
+    const [walletConnected, setWalletConnected] = useState(false);
+    const [walletAddress, setWalletAddress] = useState('');
+    const [walletStatus, setWalletStatus] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [cookies, setCookie] = useCookies(['token']);
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext); // Use AuthContext
+    const { login } = useContext(AuthContext);
 
     const [loginUser] = useMutation(LOGIN_USER, {
         onCompleted: (data) => {
             const token = data.loginUser.token;
-            setCookie('token', token, { path: '/' });
+            // Store the token in local storage
+            localStorage.setItem('token', token);
             setLoading(false);
+            console.log("Login Token:", token);
+
             const userData = data.loginUser.user;
-            console.log("Login successful, user data:", userData); // Logging
-            login(userData); // Call the login function from AuthContext
+            console.log("Login successful, user data:", userData);
+            login(userData);
             navigate('/voter/dashboard');
         },
         onError: (error) => {
@@ -37,13 +41,47 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        if (!walletConnected) {
+            setError("Please connect your wallet before logging in.");
+            return;
+        }
+        
         setLoading(true);
         setError('');
 
         try {
-            await loginUser({ variables: { email, password } });
+            console.error("Frontend received walletADDRESS:", walletAddress);
+
+            await loginUser({ variables: { email, password, walletAddress } });
         } catch (error) {
             setLoading(false);
+        }
+    };
+
+    const connectWallet = async () => {
+        console.log("Attempting to connect wallet...");
+    
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    const userWalletAddress = accounts[0];
+                    setWalletConnected(true);
+                    setWalletAddress(userWalletAddress);
+                    setWalletStatus("Connected Successfully");
+                    setError('');
+                    console.log("Wallet connected:", userWalletAddress);
+                } else {
+                    console.log("No accounts found.");
+                    setError("No accounts found in MetaMask.");
+                }
+            } catch (error) {
+                console.error("Error connecting to wallet:", error);
+                setError("Failed to connect wallet. Please try again.");
+            }
+        } else {
+            console.log("MetaMask not detected");
+            setError("Please install MetaMask to connect your wallet.");
         }
     };
 
@@ -64,7 +102,7 @@ function Login() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            disabled={loading} // Disable during loading
+                            disabled={loading}
                         />
                     </label>
                     <label>
@@ -74,11 +112,17 @@ function Login() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            disabled={loading} // Disable during loading
+                            disabled={loading}
                         />
                     </label>
-                    <button type="submit" disabled={loading}> {/* Disable button during loading */}
-                        {loading ? <Loader /> : 'Login'} {/* Show loader when loading */}
+                    <button type="button" onClick={connectWallet} disabled={loading}>
+                        {walletConnected ? 'Wallet Connected' : 'Connect Wallet'}
+                    </button>
+                    
+                    <p>{walletStatus || 'Wallet Not Connected'}</p>
+                    
+                    <button type="submit" disabled={loading}>
+                        {loading ? <Loader /> : 'Login'}
                     </button>
                     <div className="form-links">
                         <Link to="/user/forgot-password">Forgot Password?</Link>

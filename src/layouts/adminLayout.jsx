@@ -1,6 +1,6 @@
 // src/components/common/Layout.jsx
 import React from 'react';
-import Sidebar from '../components/common/Sidebar';
+import AdminSidebar from '../components/admin/AdminSidebar';
 import Header from '../components/user/VoterHeader';
 
 const AdminLayout = ({ children }) => {
@@ -8,7 +8,7 @@ const AdminLayout = ({ children }) => {
     <div>
       <Header />
       <div className="admin-layout-content">
-                <Sidebar />
+                <AdminSidebar />
                 <div className="admin-layout-main">
                     {children}
                 </div>

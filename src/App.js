@@ -4,7 +4,7 @@ import IDVerification from './components/common/IDVerification';
 import LoginForm from './components/common/LoginForm';
 import VoterRegistration from './components/user/VoterRegistration';
 import VoterDashboard from './components/user/VoterOverview';
-import AdminDashboard from './components/admin/AdminOverview';
+import AdminDashboard from './components/admin/home/AdminOverview';
 import SignupForm from './components/common/SignupForm';
 import VoterLayout from './layouts/voterLayout';
 import MultiStepForm from './components/common/MultiStepForm';
@@ -13,6 +13,13 @@ import PublicRoute from './utils/PublicRoute';    // Import the PublicRoute comp
 import AdminLogin from './components/admin/AdminLogin'; // Import admin login component
 import AdminSignup from './components/admin/AdminSignup'; // Import admin signup component
 import AdminLayout from './layouts/adminLayout';
+import ElectionManagement from './components/admin/electionmanagement/ElectionManagement';
+//import PartyOverview from './components/admin/party/PartyOverview';
+import PartyManagement from './components/admin/party/PartyManagement';
+//import CandidateOverview from './components/admin/candidateman/CandOverview';
+import CandidateManagement from './components/admin/candidateman/CandidateMangement';
+import VoterManagement from './components/admin/voters/VoterManagement';
+import AdminSettingsPage from './components/admin/settings/AdminSettingsPage';
 
 function App() {
     return (
@@ -42,7 +49,41 @@ function App() {
                     </AdminLayout>
                 </PrivateRoute>
             } />
-
+            <Route path="/admin/elecmanagement" element={
+                <PrivateRoute role="ADMIN">
+                    <AdminLayout>
+                        <ElectionManagement />
+                    </AdminLayout>
+                </PrivateRoute>
+            } />
+            <Route path="/admin/partymanagement" element={
+                <PrivateRoute role="ADMIN">
+                    <AdminLayout>
+                        <PartyManagement />
+                    </AdminLayout>
+                </PrivateRoute>
+            } />
+            <Route path="/admin/candmanagement" element={
+                <PrivateRoute role="ADMIN">
+                    <AdminLayout>
+                        <CandidateManagement />
+                    </AdminLayout>
+                </PrivateRoute>
+            } />
+            <Route path="/admin/voters" element={
+                <PrivateRoute role="ADMIN">
+                    <AdminLayout>
+                        <VoterManagement />
+                    </AdminLayout>
+                </PrivateRoute>
+            } />
+            <Route path="/admin/settings" element={
+                <PrivateRoute role="ADMIN">
+                    <AdminLayout>
+                        <AdminSettingsPage />
+                    </AdminLayout>
+                </PrivateRoute>
+            } />
             <Route path="/voter/profile-setup" element={<MultiStepForm />} />
         </Routes>
     );

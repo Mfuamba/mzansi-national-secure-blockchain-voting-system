@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useCookies } from 'react-cookie';
-import '../../styles/SignupForm.css'; // Import the CSS file
-import logo from '../../assets/iec-logo.png'; // Path to your logo image
-import signupSVG from '../../assets/signup.svg'; // Path to your SVG image
-import Loader from '../common/Loader'; // Import your Loader component
+import '../../styles/SignupForm.css'; 
+import logo from '../../assets/iec-logo.png'; 
+import signupSVG from '../../assets/signup.svg'; 
+import Loader from '../common/Loader'; 
 import { REGISTER_USER } from '../../apollo/mutations';
+import Web3 from 'web3';
 
 function SignupForm() {
     const [formData, setFormData] = useState({
@@ -14,33 +15,34 @@ function SignupForm() {
         surname: '',
         phoneNumber: '',
         address: '',
-        email: '',
         id: '',
         password: '',
         confirmPassword: '',
         role: 'VOTER',
         status: 'Active',
+        walletAddress: '', 
+        province: '',
     });
 
+    const [walletStatus, setWalletStatus] = useState(''); // New state for wallet connection status
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false); // State for the loader
-    const [cookies, setCookie] = useCookies(['token']); // React Cookie hook
+    const [loading, setLoading] = useState(false);
+    const [cookies, setCookie] = useCookies(['token']); 
     const navigate = useNavigate();
     
     const [registerUser] = useMutation(REGISTER_USER, {
         onCompleted: (data) => {
-            setLoading(false); // Stop the loader
+            setLoading(false);
             console.log("User registered successfully:", data);
-            // Store the token in a secure cookie
             setCookie('token', data.registerUser.token, {
                 path: '/',
-                secure: process.env.NODE_ENV === 'production', // Set to true in production
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'Strict',
             });
             navigate('/user/login');
         },
         onError: (error) => {
-            setLoading(false); // Stop the loader
+            setLoading(false);
             console.error("Registration error:", error);
             setError("An error occurred during registration. Please try again.");
         }
@@ -61,7 +63,7 @@ function SignupForm() {
             return;
         }
 
-        setLoading(true); // Start the loader
+        setLoading(true);
         try {
             await registerUser({
                 variables: {
@@ -70,11 +72,14 @@ function SignupForm() {
                         surname: formData.surname,
                         phoneNumber: formData.phoneNumber,
                         address: formData.address,
-                        email: formData.email,
+                        email: formData.email, // Optional if using wallet
                         id: formData.id,
-                        password: formData.password,
+                        password: formData.password, // Optional if using wallet
+                        confirmPassword: formData.confirmPassword, // Optional if using wallet
                         role: formData.role,
                         status: formData.status,
+                        walletAddress: formData.walletAddress, 
+                        province: formData.province // Include province in mutation
                     }
                 }
             });
@@ -83,6 +88,29 @@ function SignupForm() {
             console.error("Error during signup:", error);
         }        
     };
+
+    // Function to connect wallet
+    const connectWallet = async () => {
+        if (window.ethereum) {
+            try {
+                const web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts(); // Fetch accounts here
+                const walletAddress = accounts[0]; // First account in the MetaMask wallet
+                setFormData({
+                    ...formData,
+                    walletAddress,
+                });
+                setWalletStatus("Connected Successfully");
+            } catch (error) {
+                console.error("Error connecting to wallet:", error);
+                setError("Failed to connect wallet. Please try again.");
+            }
+        } else {
+            setError("Please install MetaMask to connect your wallet.");
+        }
+    };
+    
 
     return (
         <div className="signup-container">
@@ -109,7 +137,7 @@ function SignupForm() {
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading} 
                                 />
                             </label>
                         </div>
@@ -122,12 +150,11 @@ function SignupForm() {
                                     value={formData.surname}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading} 
                                 />
                             </label>
                         </div>
                     </div>
-    
                     <div className="form-row">
                         <div className="form-column">
                             <label>
@@ -162,7 +189,7 @@ function SignupForm() {
                             <label>
                                 Email:
                                 <input
-                                    type="email"
+                                    type="text"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
@@ -186,7 +213,32 @@ function SignupForm() {
                         </div>
                     </div>
     
-                    <div className="form-row">
+                <div className='form-row'>
+                    <div className="form-column">
+                        <label>
+                            Province:
+                            <select
+                                name="province"
+                                value={formData.province}
+                                onChange={handleChange}
+                                required
+                                disabled={loading} // Disable during loading
+                            >
+                                <option value="">Select your province</option>
+                                <option value="Eastern Cape">Eastern Cape</option>
+                                <option value="Free State">Free State</option>
+                                <option value="Gauteng">Gauteng</option>
+                                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                                <option value="Limpopo">Limpopo</option>
+                                <option value="Mpumalanga">Mpumalanga</option>
+                                <option value="Northern Cape">Northern Cape</option>
+                                <option value="North West">North West</option>
+                                <option value="Western Cape">Western Cape</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div className="form-row">
                         <div className="form-column">
                             <label>
                                 Password:
@@ -214,9 +266,14 @@ function SignupForm() {
                             </label>
                         </div>
                     </div>
-    
-                    <button type="submit" disabled={loading}> {/* Disable button during loading */}
-                        {loading ? <Loader /> : 'Sign Up'} {/* Show loader when loading */}
+                    <button type="button" onClick={connectWallet} disabled={loading}>
+                        Connect Wallet
+                    </button>
+                    
+                    <p>{walletStatus || 'Wallet Not Connected'}</p> {/* Display wallet connection status */}
+                    
+                    <button type="submit" disabled={loading}> 
+                        {loading ? <Loader /> : 'Sign Up'} 
                     </button>
                     <div className="form-links">
                         <Link to="/user/login">Already have an account? Login here</Link>

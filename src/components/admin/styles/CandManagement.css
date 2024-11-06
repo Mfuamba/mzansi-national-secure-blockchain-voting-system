@@ -1,0 +1,132 @@
+.candidate-management {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 105px; /* Respecting header space */
+    margin-left: 250px; /* Aligning with sidebar */
+    box-sizing: border-box;
+    overflow-x: hidden;
+    width: calc(100% - 250px); /* Adjust width to account for sidebar */
+}
+
+.candidate-overview {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.candidate-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.candidate-table th,
+.candidate-table td {
+    padding: 12px;
+    text-align: left;
+}
+
+.candidate-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.candidate-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.edit-candidate-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    padding: 10px 20px;
+}
+
+.create-candidate-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-candidate-form input,
+.create-candidate-form select,
+.create-candidate-form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.selector-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.selector-button.active {
+    background-color: #0056b3;
+}
+
+.edit-candidate-modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-candidate-modal form input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.edit-candidate-modal form button {
+    padding: 10px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-candidate-modal form button:hover {
+    background-color: #218838;
+}

@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
 
     const login = (userData) => {
         // Store token in localStorage or cookies
-        localStorage.setItem('token', userData.token); // Or use cookies
 
         setUser(userData);
         if (userData.role === 'ADMIN') {

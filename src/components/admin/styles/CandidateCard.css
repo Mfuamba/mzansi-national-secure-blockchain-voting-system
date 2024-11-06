@@ -1,0 +1,11 @@
+.candidateCard {
+    flex: 1; /* Allows cards to be equally sized */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 300px; /* Ensures the cards have a maximum width */
+    text-align: center;
+}

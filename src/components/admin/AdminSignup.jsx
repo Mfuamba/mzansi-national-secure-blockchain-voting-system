@@ -7,6 +7,8 @@ import logo from '../../assets/iec-logo.png'; // Path to your logo image
 import signupSVG from '../../assets/signup.svg'; // Path to your SVG image
 import Loader from '../common/Loader'; // Import your Loader component
 import { REGISTER_USER } from '../../apollo/mutations';
+import Web3 from 'web3'; // Import Web3
+import contractABI from '../abis/VotingContract.json';
 
 function AdminSignup() {
     const [formData, setFormData] = useState({
@@ -20,28 +22,30 @@ function AdminSignup() {
         confirmPassword: '',
         role: 'ADMIN',
         status: 'Active',
+        walletAddress: '',
+        province:'',
     });
-
+    const [walletStatus, setWalletStatus] = useState(''); // New state for wallet connection status
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false); // State for the loader
     const [cookies, setCookie] = useCookies(['token']); // React Cookie hook
     const navigate = useNavigate();
-    
+    const web3 = new Web3(window.ethereum);
+
+    const contractAddress = '0xYourSmartContractAddress'; // Replace with your smart contract address
+
     const [registerUser] = useMutation(REGISTER_USER, {
         onCompleted: (data) => {
-            setLoading(false); // Stop the loader
-            console.log("User registered successfully:", data);
-            // Store the token in a secure cookie
+            setLoading(false);
             setCookie('token', data.registerUser.token, {
                 path: '/',
-                secure: process.env.NODE_ENV === 'production', // Set to true in production
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'Strict',
             });
             navigate('/admin/login');
         },
         onError: (error) => {
-            setLoading(false); // Stop the loader
-            console.error("Registration error:", error);
+            setLoading(false);
             setError("An error occurred during registration. Please try again.");
         }
     });
@@ -56,34 +60,49 @@ function AdminSignup() {
 
     const handleSignup = async (e) => {
         e.preventDefault();
+        
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match.');
             return;
         }
 
-        setLoading(true); // Start the loader
+        setLoading(true);
         try {
             await registerUser({
                 variables: {
-                    input: {
-                        name: formData.name,
-                        surname: formData.surname,
-                        phoneNumber: formData.phoneNumber,
-                        address: formData.address,
-                        email: formData.email,
-                        id: formData.id,
-                        password: formData.password,
-                        role: formData.role,
-                        status: formData.status,
-                    }
+                    input: { ...formData }
                 }
             });
+
+            //setLoading(false);
+            //navigate('/admin/login');
+
         } catch (error) {
             setLoading(false);
-            console.error("Error during signup:", error);
-        }        
+            setError("An error occurred during registration. Please try again.");
+        }
     };
-
+    // Function to connect wallet
+    const connectWallet = async () => {
+        if (window.ethereum) {
+            try {
+                const web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts(); // Fetch accounts here
+                const walletAddress = accounts[1]; // First account in the MetaMask wallet
+                setFormData({
+                    ...formData,
+                    walletAddress,
+                });
+                setWalletStatus("Connected Successfully"); // Set the wallet connection status
+            } catch (error) {
+                console.error("Error connecting to wallet:", error);
+                setError("Failed to connect wallet. Please try again.");
+            }
+        } else {
+            setError("Please install MetaMask to connect your wallet.");
+        }
+    };
     return (
         <div className="signup-container">
             <div className="left-half">
@@ -91,7 +110,7 @@ function AdminSignup() {
                 <img 
                     src={signupSVG} 
                     alt="Signup Illustration" 
-                    className="svg-image" 
+                    className="svg-image responsive-svg" 
                 />
             </div>
             <div className="right-half">
@@ -109,7 +128,8 @@ function AdminSignup() {
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
@@ -122,12 +142,13 @@ function AdminSignup() {
                                     value={formData.surname}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
                     </div>
-    
+
                     <div className="form-row">
                         <div className="form-column">
                             <label>
@@ -138,7 +159,8 @@ function AdminSignup() {
                                     value={formData.phoneNumber}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
@@ -151,12 +173,13 @@ function AdminSignup() {
                                     value={formData.address}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
                     </div>
-    
+
                     <div className="form-row">
                         <div className="form-column">
                             <label>
@@ -167,7 +190,8 @@ function AdminSignup() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
@@ -180,12 +204,37 @@ function AdminSignup() {
                                     value={formData.id}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
                     </div>
-    
+                    <div className='form-row'>
+                    <div className="form-column">
+                        <label>
+                            Province:
+                            <select
+                                name="province"
+                                value={formData.province}
+                                onChange={handleChange}
+                                required
+                                disabled={loading} // Disable during loading
+                            >
+                                <option value="">Select your province</option>
+                                <option value="Eastern Cape">Eastern Cape</option>
+                                <option value="Free State">Free State</option>
+                                <option value="Gauteng">Gauteng</option>
+                                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                                <option value="Limpopo">Limpopo</option>
+                                <option value="Mpumalanga">Mpumalanga</option>
+                                <option value="Northern Cape">Northern Cape</option>
+                                <option value="North West">North West</option>
+                                <option value="Western Cape">Western Cape</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
                     <div className="form-row">
                         <div className="form-column">
                             <label>
@@ -196,7 +245,8 @@ function AdminSignup() {
                                     value={formData.password}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
@@ -209,17 +259,24 @@ function AdminSignup() {
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     required
-                                    disabled={loading} // Disable during loading
+                                    disabled={loading}
+                                    className="form-input"
                                 />
                             </label>
                         </div>
                     </div>
-    
-                    <button type="submit" disabled={loading}> {/* Disable button during loading */}
-                        {loading ? <Loader /> : 'Sign Up'} {/* Show loader when loading */}
+                    <button type="button" onClick={connectWallet} disabled={loading}>
+                        Connect Wallet
                     </button>
+                    
+                    <p>{walletStatus || 'Wallet Not Connected'}</p> {/* Display wallet connection status */}
+                    
+                    <button type="submit" className="submit-btn" disabled={loading}>
+                        {loading ? <Loader /> : 'Sign Up'}
+                    </button>
+
                     <div className="form-links">
-                        <Link to="/admin/login">Already have an account? Login here</Link>
+                        <Link to="/admin/login" className="login-link">Already have an account? Login here</Link>
                     </div>
                 </form>
             </div>
